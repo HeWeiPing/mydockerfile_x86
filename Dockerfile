@@ -17,7 +17,7 @@ WORKDIR ~/
 RUN apt-get update && apt-get install -y wget gcc vim
 
 # install database: mysql sqlite3
-RUN apt-get install -y mysql sqlite3
+RUN apt-get install -y mysql-server sqlite3
 
 # install Go
 RUN wget -c https://studygolang.com/dl/golang/go1.9.2.linux-386.tar.gz

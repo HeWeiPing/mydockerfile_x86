@@ -53,34 +53,11 @@ ENV PATH=$PATH:/usr/local/go/bin
 ENV GOPATH=$HOME/gocode
 ENV PATH=$PATH:$GOPATH/bin
 
-RUN git clone git@github.com:HeWeiPing/Vim.git && echo "runtime vimrc" > $HOME/.vimrc
+RUN git clone git@github.com:HeWeiPing/Vim.git \
+		&& echo "runtime vimrc" > $HOME/.vimrc
+RUN git clone git@github.com:HeWeiPing/myBashrcCfg.git \
+		&& cat myBashrcCfg/mybashrc.cfg >> $HOME/.bashrc 
 
-RUN { \
-echo 'source /usr/share/autojump/autojump.sh            ' \
-echo '                                                  ' \
-echo 'export LESS_TERMCAP_mb=$'\E[01;31m'               ' \
-echo 'export LESS_TERMCAP_md=$'\E[01;31m'               ' \
-echo 'export LESS_TERMCAP_me=$'\E[0m'                   ' \
-echo 'export LESS_TERMCAP_se=$'\E[0m'                   ' \
-echo 'export LESS_TERMCAP_so=$'\E[01;44;33m'            ' \
-echo 'export LESS_TERMCAP_ue=$'\E[0m'                   ' \
-echo 'export LESS_TERMCAP_us=$'\E[01;32m'               ' \
-echo '                                                  ' \
-echo 'export PS1="\e[31;1m<\e[34;1m\w\e[31;1m>\e[0m\n$" ' \
-echo '                                                  ' \
-echo '                                                  ' \
-echo '# my alias                                        ' \
-echo 'alias vi='vim'                                    ' \
-echo 'alias ct='ctags --sort=foldcase -R .'             ' \
-echo '                                                  ' \
-echo 'alias ls='ls --color=auto'                        ' \
-echo 'alias ll='ls -lhF'                                ' \
-echo 'alias la='ls -lhA'                                ' \
-echo 'alias l='ls -CF'                                  ' \
-echo '                                                  ' \
-echo 'alias sr='screen -r'                              ' \
-echo 'alias sl='screen -ls'                             ' \
-} | >> $HOME/.bashrc
 
 
 # expose http port to host

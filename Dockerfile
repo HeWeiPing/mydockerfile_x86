@@ -1,19 +1,16 @@
 ###############################################################################
-# Dockerfile to build a personal workspace container image
-# Base on Ubuntu x86
+# Dockerfile to build a personal workspace image
 # Maintain at github: git@github.com:HeWeiPing/mydockerfile_x86.git
 ###############################################################################
 
-# base on ubuntu x86
+# base image
 FROM i386/ubuntu
 
 # maintainer 
 MAINTAINER hervey<hwp195@163.com>
 
-# set the home dir, because container uses / as workdir when login
+# set the home dir as workdir, because docker build will uses / as default
 ENV HOME /root
-
-# work dir
 WORKDIR $HOME
 
 # set all interactive installation to noninteractive
@@ -23,13 +20,16 @@ ENV	DEBIAN_FRONTEND noninteractive
 # install tools
 # debconf: An important tool for installing software that need to interactive
 RUN apt-get update && apt-get install -y \
-		debconf      \
-		gcc          \
-		git          \
-		wget         \
-		vim          \ 
-		sqlite3      \
-		mysql-server  
+		debconf \
+		gcc     \
+		git     \
+		wget    \
+		vim     \ 
+		sqlite3 \
+		autojump
+
+# install mysql and fix an error of mysql server when starting
+RUN apt-get install -y mysql-server && usermod -d /var/lib/mysql/ mysql
 
 # install database: mysql sqlite3
 #  an error occur by flow RUN-> debconf: unable to initialize frontend: Dialog
@@ -43,20 +43,20 @@ RUN apt-get update && apt-get install -y \
 #RUN apt-get install -y sqlite3
 
 # install Go
-RUN wget -c https://studygolang.com/dl/golang/go1.9.2.linux-386.tar.gz \
-	&& rm -rf /usr/local/go \
-	&& tar -C /usr/local -zxf go1.9.2.linux-386.tar.gz \
-	&& rm  go1.9.2.linux-386.tar.gz
+RUN wget -c https://studygolang.com/dl/golang/go1.9.2.linux-386.tar.gz && \
+	rm -rf /usr/local/go && \
+	tar -C /usr/local -zxf go1.9.2.linux-386.tar.gz && \
+	rm  go1.9.2.linux-386.tar.gz
 
 # set env and personal configuration
 ENV PATH=$PATH:/usr/local/go/bin
 ENV GOPATH=$HOME/gocode
 ENV PATH=$PATH:$GOPATH/bin
 
-RUN git clone git@github.com:HeWeiPing/Vim.git \
-		&& echo "runtime vimrc" > $HOME/.vimrc
-RUN git clone git@github.com:HeWeiPing/myBashrcCfg.git \
-		&& cat myBashrcCfg/mybashrc.cfg >> $HOME/.bashrc 
+RUN git clone https://github.com/HeWeiPing/Vim.git && \
+	echo "runtime vimrc" > $HOME/.vimrc
+RUN git clone https://github.com/HeWeiPing/myBashrcCfg.git && \
+	cat myBashrcCfg/mybashrc.cfg >> $HOME/.bashrc
 
 
 

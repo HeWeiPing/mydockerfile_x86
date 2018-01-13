@@ -54,9 +54,11 @@ ENV GOPATH=$HOME/gocode
 ENV PATH=$PATH:$GOPATH/bin
 
 RUN git clone https://github.com/HeWeiPing/Vim.git && \
+	mv Vim .vim && \
 	echo "runtime vimrc" > $HOME/.vimrc
 RUN git clone https://github.com/HeWeiPing/myBashrcCfg.git && \
-	cat myBashrcCfg/mybashrc.cfg >> $HOME/.bashrc
+	cat myBashrcCfg/mybashrc.cfg >> $HOME/.bashrc && \
+	rm -rf myBashrcCfg
 
 
 

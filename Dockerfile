@@ -1,6 +1,6 @@
 ###############################################################################
 # Dockerfile to build a personal workspace image
-# Maintain at github: git@github.com:HeWeiPing/mydockerfile_x86.git
+# Maintain at github: https://github.com/hwp9527/myDockerfile.git
 ###############################################################################
 
 # base image
@@ -53,12 +53,11 @@ ENV PATH=$PATH:/usr/local/go/bin
 ENV GOPATH=$HOME/gocode
 ENV PATH=$PATH:$GOPATH/bin
 
-RUN git clone https://github.com/HeWeiPing/Vim.git && \
-	mv Vim .vim && \
+RUN git clone https://github.com/hwp9527/.vim.git \
 	echo "runtime vimrc" > $HOME/.vimrc
-RUN git clone https://github.com/HeWeiPing/myBashrcCfg.git && \
-	cat myBashrcCfg/mybashrc.cfg >> $HOME/.bashrc && \
-	rm -rf myBashrcCfg
+RUN git clone https://github.com/hwp9527/myBashCfg.git \
+	cat myBashCfg/mybashrc.cfg >> $HOME/.bashrc && \
+	rm -rf myBashCfg
 
 
 
